@@ -1,3 +1,1 @@
-from django.contrib import admin
-
-# Register your models here.
+# Los modelos editoriales se administran desde Wagtail.
