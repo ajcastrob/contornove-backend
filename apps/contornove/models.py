@@ -4,6 +4,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable, Page
 from wagtail.snippets.models import register_snippet
+from wagtail.api import APIField
 
 
 @register_snippet
@@ -31,6 +32,12 @@ class MedioSnippet(models.Model):
         FieldPanel("activo"),
     ]
 
+    api_fields = [
+        APIField("nombre"),
+        APIField("tendencia_editorial"),
+        APIField("url_base"),
+    ]
+
     def __str__(self):
         return self.nombre
 
@@ -46,6 +53,26 @@ class ReporteDiarioPage(Page):
     ]
 
     subpage_types = []
+
+    api_fields = [
+        APIField("fecha"),
+        APIField("contexto_editorial"),
+        APIField("titulares_api"),
+    ]
+
+    @property
+    def titulares_api(self):
+        return [
+            {
+                "medio": {
+                    "nombre": item.medio.nombre,
+                    "tendencia_editorial": item.medio.tendencia_editorial,
+                },
+                "titular": item.titular,
+                "enlace_original": item.enlace_original,
+            }
+            for item in self.titulares.select_related("medio").all()
+        ]
 
 
 class TitularOrderable(Orderable):

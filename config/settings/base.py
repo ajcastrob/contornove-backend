@@ -147,4 +147,7 @@ MAILERS = {
 
 # Wagtail
 WAGTAIL_SITE_NAME = "Contornove CMS"
-WAGTAILADMIN_BASE_URL = os.getenv("WAGTAILADMIN_BASE_URL", "http://localhost:8000")
+WAGTAILAPI_BASE_URL = os.getenv(
+    "WAGTAILAPI_BASE_URL",
+    "http://localhost:8000/",
+)
